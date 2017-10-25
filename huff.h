@@ -1,42 +1,43 @@
-#define MAX 16	//MAXimum length of codeword, more the MAX more overhead
+#define MAX 16
+#define LEAF 0
+#define INTERNAL 1
+#define ASCII_SIZE 256
 char padding;
 unsigned char N;
 
-typedef struct symCode
-{ char x;
+typedef struct coder
+{ char alpha;
   char code[MAX];
-}symCode;
+}coder;
 
-char ext[]=".hzip";
-char dext[]=".txt";
 
-/*
-char *bitsInChar(char n)
+typedef struct node
 {
-int i,k,and,j;
-char *temp=(char *)malloc(9*sizeof(char));
-j=0;
-for(i=7;i>=0;i--)
-{
-	and=1<<i;
-	k=n & and;
-	if(k==0) temp[j++]='0'; else temp[j++]='1';
-}
-temp[j]='\0';
-return temp;
-}
-char *bitsInInt(int n)
-{
-int i,k,and,j;
-char *temp=(char *)malloc(16*sizeof(char));
-j=0;
-for(i=15;i>=0;i--)
-{
-	and=1<<i;
-	k=n & and;
-	if(k==0) temp[j++]='0'; else temp[j++]='1';
-}
-temp[j]='\0';
-return temp;
-}
-*/
+	char alpha;
+	char *code;
+	int freq;
+	int type;
+	struct node *next;
+	struct node *left; 
+	struct node *right;
+}node;
+
+node *head,*root;
+
+void generateC(node * a,char* code);
+void printll();
+char ext[]=".huff";
+void writeB(int b,FILE *f);
+char dext[]=".unhuff";
+void makeTree();
+void insert(node *a,node *b);
+void addSym(char c);
+void writeC(char ch,FILE *f);
+int fileError(FILE * fp;);
+char *getC(char ch);
+coder *symlist;
+void writeH(FILE *f);
+int match(char a[],char b[],int limit);
+int n;
+char *decodeBuffer(char buffer);
+char *intstring(int n);
